@@ -1,25 +1,38 @@
-import * as React from "react"
-import { cn } from "cn"
 
-const Textarea = React.forwardRef<HTMLTextAreaElement, React.ComponentProps<"textarea">>(
-  ({ className, ...props }, ref) => {
-  return (
-    <textarea
-      data-slot="textarea"
-      className={cn(
-        "flex min-h-[60px] w-full border border-input bg-transparent px-3 py-2 text-base shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
-        className
-      )}
-      ref={ref}
-      {...props}
-    />
-  )
-});
+import * as React from "react";
+import { cn } from "@/lib/utils";
 
-Textarea.displayName = "Textarea";
-export { Textarea }
+export interface TextAreaProps extends React.ComponentProps<"textarea"> {
+  label?: string;
+  error?: string;
+}
 
+const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
+  ({ className, label, error, ...props }, ref) => {
+    return (
+      <div>
+        {label && (
+          <label className="font-heading text-xs font-bold uppercase block mb-2">
+            {label}
+          </label>
+        )}
+        <textarea
+          className={cn(
+            "w-full brutal-border bg-background px-4 py-3 font-mono text-sm focus:outline-none focus:shadow-[4px_4px_0px_0px] focus:shadow-accent min-h-[120px] resize-y",
+            error && "border-red-500",
+            className,
+          )}
+          ref={ref}
+          {...props}
+        />
+        {error && <p className="text-red-500 text-sm">{error}</p>}
+      </div>
+    );
+  },
+);
+TextArea.displayName = "TextArea";
 
+export { TextArea };
 
 
 

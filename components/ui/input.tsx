@@ -2,22 +2,35 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 
-const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
-  ({ className, type, ...props }, ref) => {
+export interface InputProps extends React.ComponentProps<"input"> {
+  label?: string;
+  error?: string;
+}
+
+const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, type, label, error, ...props }, ref) => {
     return (
-      <input
-        type={type}
-        className={cn(
-          "flex h-9 w-full border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
-          className,
+      <div>
+        {label && (
+          <label className="font-heading text-xs font-bold uppercase block mb-2">
+            {label}
+          </label>
         )}
-        ref={ref}
-        {...props}
-      />
+        <input
+          type={type}
+          className={cn(
+            "flex w-full brutal-border bg-background px-4 py-3 font-mono text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus:outline-none focus:shadow-[4px_4px_0px_0px] focus:shadow-accent disabled:cursor-not-allowed disabled:opacity-50",
+            error && "border-red-500",
+            className,
+          )}
+          ref={ref}
+          {...props}
+        />
+        {error && <p className="text-red-500 text-sm">{error}</p>}
+      </div>
     );
   },
 );
 Input.displayName = "Input";
 
 export { Input };
-
