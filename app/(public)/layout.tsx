@@ -1,5 +1,5 @@
 import NavbarHeader from "@/components/navbar/NavbarHeader";
-
+import NavbarFooter  from "@/components/navbar/NavbarFooter";
 
 function AppLayout({children}: {children:React.ReactNode}) {
 
@@ -8,6 +8,7 @@ function AppLayout({children}: {children:React.ReactNode}) {
 
          <NavbarHeader/>
         {children}
+        <NavbarFooter/>
     </div>
    )
 
