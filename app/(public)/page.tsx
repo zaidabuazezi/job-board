@@ -1,12 +1,7 @@
-import {HeroSection} from '@/components/landing/HeroSection';
-import {FeaturedJobs} from '@/components/landing/FeaturedJobs';
+import JobsListingWrapper  from "@/components/jobs/ـJobListing Wrapper";
 
 export default function Home() {
   return (
-    
-    <>
-      <HeroSection/>
-      <FeaturedJobs/>
-    </>
+     <JobsListingWrapper/>
   );
 }
