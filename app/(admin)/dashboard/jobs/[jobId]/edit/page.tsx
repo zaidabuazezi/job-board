@@ -1,25 +1,38 @@
-import Link from 'next/link';
+import AdminPageHeader from "@/components/common/AdminPageHeader";
+import EditJobForm from "@/components/job-management/EditJobform";
+import JobNotFound from "@/components/jobs/JobNotFound";
+import { JobsData } from "@/data";
+import {Job} from '@/types'
 
+type Props = {
+  params: Promise<
+  { jobId: string }
+  >;
+};
 
-type Props ={
-    params:Promise<{
-        jobId:string
-    }>
-}
+async function EditJobPage({ params }: Props) {
+  const { jobId } = await params;
 
+  const job=JobsData.find((job:Job)=> {
+      return job.id === jobId
+  })
 
-async function EditJobPage ( {params}:Props ) {
+  if (!job) {
+    return <JobNotFound />;
+  }
 
-   const {jobId}=await params;
-   console.log(jobId);
-
-   return (
-    <div>
-          <h1>Edit Jobs</h1>
-          <Link className='bg-blue-500 rounded-md px-2 py-1.5 text-white hover:bg-blue-300' href="/dashboard/jobs">back to Jobs</Link>
-    </div>
-   )
-
+  return (
+    <>
+      <AdminPageHeader
+        title="EDIT JOB"
+        subtitle={`ID: ${job.id} — ${job.title}`}
+        actionButtonLink="/dashboard/jobs"
+        actionButtonVariant="outline"
+        actionButtonText="← BACK"
+      />
+      <EditJobForm job={job} />
+    </>
+  );
 }
 
 export default EditJobPage;

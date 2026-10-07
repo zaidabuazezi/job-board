@@ -1,13 +1,39 @@
-
+"use client";
 import { Button } from "../ui/button";
 import { Job } from "@/types/job";
-
+import { useRouter } from "next/navigation";
+import DeletePopup from "../common/DeletePopup";
+import { use, useState } from "react";
 
 type Props = {
   jobs: Job[];
 };
 
 function JobManagementTable({ jobs }: Props) {
+
+      const [isDeletePopupOpen,setisDeletePopupOpen]=useState(false);
+      const [jobIdToDelete,setjobIdToDelete]=useState<string | null>(null);
+
+        const navigate=useRouter();
+
+        const oneditjob=(jobId:string) => {
+            navigate.push(`/dashboard/jobs/${jobId}/edit`)
+        }
+
+        const onDeletejob=(jobId:string) => {
+            setisDeletePopupOpen(true);
+            setjobIdToDelete(jobId);
+        }
+
+        const handleDeleteJob=() => {
+            setisDeletePopupOpen(false);
+            setjobIdToDelete(null);
+        }
+
+        const handleCancelDelete=() => {
+            setisDeletePopupOpen(false);
+            setjobIdToDelete(null);
+        }
 
   return (
     <div className="mt-8 brutal-border overflow-x-auto">
@@ -63,6 +89,7 @@ function JobManagementTable({ jobs }: Props) {
                     variant="outline"
                     size="sm"
                     className="brutal-shadow-none shadow-none"
+                    onClick={()=>oneditjob(job.id)}
                   >
                     EDIT
                   </Button>
@@ -70,6 +97,7 @@ function JobManagementTable({ jobs }: Props) {
                     variant="destructive"
                     size="sm"
                     className="border-l-0 brutal-shadow-none shadow-none"
+                    onClick={()=>onDeletejob(job.id)}
                   >
                     DELETE
                   </Button>
@@ -79,6 +107,11 @@ function JobManagementTable({ jobs }: Props) {
           ))}
         </tbody>
       </table>
+      <DeletePopup 
+      isOpen={isDeletePopupOpen}
+      onDelete={handleDeleteJob}
+      onCancel={handleCancelDelete}
+      />
     </div>
   );
 }

@@ -1,6 +1,6 @@
 import AdminPageHeader from "@/components/common/AdminPageHeader";
 import { JobsData } from "@/data";
-import CreateJobForm from "@/components/job-management/CreateNewJobForm";
+import CreateJobForm from "@/components/job-management/CreateJobForm";
 
 function MyNew() {
     return (
