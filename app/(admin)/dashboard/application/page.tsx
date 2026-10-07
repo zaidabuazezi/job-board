@@ -1,15 +1,21 @@
-import Link from 'next/link';
+import { ApplicationData } from "@/data";
+import AdminPageHeader from "@/components/common/AdminPageHeader";
+import ApplicationsListingWrapper from "@/components/applications/ApplicationsListingWrapper";
 
-
-function MyApplication() {
+function ApplicationsManagementPage() {
     return (
-        <div className='flex flex-col items-center justify-center gap-2 h-screen'>
-            <h1>ApplicationPage</h1>
-            <Link className='bg-blue-500 rounded-md px-2 py-1.5 text-white hover:bg-blue-300' href="/dashboard/application/1">Application 1</Link>
-            <Link className='bg-blue-500 rounded-md px-2 py-1.5 text-white hover:bg-blue-300' href="/dashboard/application/2">Application 2</Link>
-            <Link className='bg-blue-500 rounded-md px-2 py-1.5 text-white hover:bg-blue-300' href="/dashboard/application/3">Application 3</Link>
-        </div>
+        <>
+        <AdminPageHeader
+         title="APPLICATIONS"
+         subtitle={`${ApplicationData.length} ACTIVE LISTINGS`}
+         actionButtonLink="/dashboard/users"
+         actionButtonVariant="outline"
+         actionButtonText="VIEW ALL USERS =>"
+        />
+        
+       <ApplicationsListingWrapper/>
+       </>
     )
 }
 
-export default MyApplication;
+export default ApplicationsManagementPage;
