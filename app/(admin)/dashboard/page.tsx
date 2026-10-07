@@ -1,14 +1,38 @@
-import Link from 'next/link'; 
+import DashboardStats from "@/components/dashboard/DashboardStats";
+import RecentApplications from "@/components/dashboard/RecentApplication";
+import { JobsData } from "@/data";
+import { CandidateData } from "@/data";
+import { ApplicationData } from "@/data";
 
-function DashboardPage() {
-    return (
-        <div className='flex flex-col gap-2 items-center justify-center h-screen'>
-            <h1>Dashboard page</h1>
-           <Link className='bg-blue-500 rounded-md px-2 py-1.5 text-white hover:bg-blue-300' href="/dashboard/jobs">move for jobs</Link>
-           <Link className='bg-blue-500 rounded-md px-2 py-1.5 text-white hover:bg-blue-300' href="/dashboard/application">move for application</Link>
-        </div>
-    )
+
+ function DashboardPage() {
+
+
+  const interviews = ApplicationData.filter(
+       (c) => c.status === "INTERVIEW",
+      ).length;
+    
+    const avgScore = (
+        ApplicationData.reduce((s, c) => s + c.aiScore, 0) /
+        ApplicationData.length
+      ).toFixed(1);
+
+  return (
+    <>
+      <h1 className="text-4xl font-heading font-bold">OVERVIEW</h1>
+      <p className="font-mono text-sm text-muted-foreground mt-1">
+        ADMIN DASHBOARD
+      </p>
+       <DashboardStats 
+         activeJobs={JobsData.length}
+         totalCandidates={CandidateData.length}
+         avgScore={avgScore}
+         interviews={interviews}
+         />
+
+         <RecentApplications applications={ApplicationData}/>
+    </>
+  );
 }
-
 
 export default DashboardPage;

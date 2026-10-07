@@ -1,12 +1,19 @@
-import Link from 'next/link';
-
+import AdminPageHeader from "@/components/common/AdminPageHeader";
+import { JobsData } from "@/data";
+import CreateJobForm from "@/components/job-management/CreateNewJobForm";
 
 function MyNew() {
     return (
-        <div className='flex flex-col items-center justify-center gap-2 h-screen'>
-            <h1>NewPage</h1>
-            <Link className='bg-blue-500 rounded-md px-2 py-1.5 text-white hover:bg-blue-300' href="/dashboard/jobs">back to jobs</Link>
-        </div>
+        <>
+        <AdminPageHeader
+      title="CREATE JOB"
+      subtitle="NEW LISTING"
+      actionButtonLink="/dashboard/jobs"
+      actionButtonVariant="outline"
+      actionButtonText="BACK TO JOBS"
+      />
+      <CreateJobForm/>
+        </>
     )
 }
 
