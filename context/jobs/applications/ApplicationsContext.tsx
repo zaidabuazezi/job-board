@@ -10,7 +10,6 @@ type ApplicationsContextType = {
     setJobFilter:(jobFilter:string) => void;
     filteredApplications:Application[];
     jobs:Job[];
-    setJobs:(jobs:Job[]) => void;
     applications:Application[];
     setApplications:(applications:Application[]) => void;
 }
@@ -24,9 +23,8 @@ const ApplicationContext = createContext<ApplicationsContextType>({
     setJobFilter: () => {},
     filteredApplications:[],
     jobs:[],
-    setJobs: ()=> {},
     applications:[],
-    setApplications:() => {}
+    setApplications:() => {},
 });
 
 export const useApplications = () => {

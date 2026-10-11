@@ -1,15 +1,14 @@
 "use client";
 import Link from "next/link";
-import { JobsData } from "@/data";
 import { useContext } from "react";
 import {useJobs} from '@/context/jobs/JobsContext';
 
 function JobCards() {
 
-    const {search,typeFilter,locationFilter}=useJobs();
+    const {search,typeFilter,locationFilter,jobs}=useJobs();
 
 
-  const filtered = JobsData.filter((j) => {
+  const filtered = jobs.filter((j) => {
     const matchSearch =
       !search ||
       j.title.includes(search.toUpperCase()) ||

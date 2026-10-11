@@ -1,11 +1,21 @@
 import DashboardStats from "@/components/dashboard/DashboardStats";
 import RecentApplications from "@/components/dashboard/RecentApplication";
-import { JobsData } from "@/data";
 import { CandidateData } from "@/data";
 import { ApplicationData } from "@/data";
+import { getJobs } from "@/services/jobs/jobs.services";
 
 
- function DashboardPage() {
+async function DashboardPage() {
+
+   const result=await getJobs();
+
+    if(! result.success) {
+      return (
+      <div>Error Loading Jobs</div>
+      )
+    }
+
+    const {data: jobs=[]}=result;
 
 
   const interviews = ApplicationData.filter(
@@ -24,7 +34,7 @@ import { ApplicationData } from "@/data";
         ADMIN DASHBOARD
       </p>
        <DashboardStats 
-         activeJobs={JobsData.length}
+         activeJobs={jobs.length}
          totalCandidates={CandidateData.length}
          avgScore={avgScore}
          interviews={interviews}

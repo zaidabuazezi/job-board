@@ -3,7 +3,7 @@ import { JobsData } from '@/data';
 import JobNotFound from '@/components/jobs/JobNotFound';
 import JobDescription from '@/components/jobs/JobDescription';
 import JobApplyForm from '@/components/jobs/JobApplyform';
-
+import { getJob } from '@/services/jobs/jobs.services';
 
 type JobIdPublic ={
     params:Promise<{
@@ -14,11 +14,16 @@ type JobIdPublic ={
  async function JobsPublic( {params}:JobIdPublic ) {
 
     const {jobId}=await params;
-    console.log(jobId);
+    
+    const result=await getJob(jobId);
 
-    const jobb=JobsData.find((job) => {
-        return job.id ===jobId 
-    });
+    if(! result.success) {
+      return (
+        <JobNotFound/>
+      )
+    }
+
+    const {data:jobb}=result;
 
     if(!jobb) {
         return (

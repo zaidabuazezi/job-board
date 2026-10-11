@@ -1,8 +1,20 @@
 import { JobsData } from "@/data";
 import JobManagementTable from "@/components/job-management/JobManagementTable";
 import AdminPageHeader from "@/components/common/AdminPageHeader";
+import { getJobs } from "@/services/jobs/jobs.services";
 
- function JobsManagementPage() {
+async function JobsManagementPage() {
+
+   const result=await getJobs();
+
+   if(! result.success) {
+    return (
+      <div>Error Loading Jobs</div>
+    )
+   }
+
+   const {data=[]}=result;
+
 
   return (
     <>
@@ -13,7 +25,7 @@ import AdminPageHeader from "@/components/common/AdminPageHeader";
       actionButtonVariant="accent"
       actionButtonText="+ CREATE JOB"
       />
-      <JobManagementTable jobs={JobsData}/>
+      <JobManagementTable jobs={data}/>
     </>
   );
 }
