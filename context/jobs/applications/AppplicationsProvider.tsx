@@ -1,21 +1,19 @@
 import React, { useState } from "react";
 import ApplicationContext from "./ApplicationsContext";
 import { getCandidate } from "@/utils";
-import { CandidateData } from "@/data";
-import { ApplicationData } from "@/data";
-import { Application, Job } from "@/types";
-import { JobsData } from "@/data";
+import { Application, Candidate, Job } from "@/types";
 
-const ApplicationsProvider = ({jobs=[] ,children }:{jobs:Job[],children:React.ReactNode}) => {
+const ApplicationsProvider = ({jobs=[],applications=[],candidates=[] ,children }:{jobs:Job[],applications:Application[],candidates:Candidate[],children:React.ReactNode}) => {
 
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("ALL");
   const [jobFilter, setJobFilter] = useState<string>("ALL");
   const [jobState]=useState<Job[]>(jobs);
-  const [applications,setApplications]=useState<Application[]>(ApplicationData);
+  const [applicationsState]=useState<Application[]>(applications);
+  const[candidatesState]=useState<Candidate[]>(candidates);
 
-  const filteredApplications = applications.filter((app) => {
-    const candidate = getCandidate(app.candidateId, CandidateData);
+  const filteredApplications = applicationsState.filter((app) => {
+    const candidate = getCandidate(app.candidateId, candidatesState);
     const matchesSearch =
       !search ||
       (candidate &&
@@ -38,8 +36,7 @@ const ApplicationsProvider = ({jobs=[] ,children }:{jobs:Job[],children:React.Re
         setJobFilter,
         filteredApplications,
         jobs:jobState,
-        applications,
-        setApplications
+        applications:applicationsState,
       }}
     >
       {children}

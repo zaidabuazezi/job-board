@@ -2,29 +2,37 @@ import DashboardStats from "@/components/dashboard/DashboardStats";
 import RecentApplications from "@/components/dashboard/RecentApplication";
 import { CandidateData } from "@/data";
 import { ApplicationData } from "@/data";
+import { getApplications } from "@/services/jobs/applications/applications.service";
 import { getJobs } from "@/services/jobs/jobs.services";
 
 
 async function DashboardPage() {
 
-   const result=await getJobs();
+   const jobsResult=await getJobs();
+   const applicationresult=await getApplications();
 
-    if(! result.success) {
+    if(! jobsResult.success) {
       return (
       <div>Error Loading Jobs</div>
       )
     }
 
-    const {data: jobs=[]}=result;
+    if(! applicationresult.success) {
+      return (
+        <div>Error loading Applications</div>
+      )
+    }
 
+    const {data: jobs=[]}=jobsResult;
+    const {data:applications=[]}=applicationresult;
 
-  const interviews = ApplicationData.filter(
+  const interviews = applications.filter(
        (c) => c.status === "INTERVIEW",
       ).length;
     
     const avgScore = (
-        ApplicationData.reduce((s, c) => s + c.aiScore, 0) /
-        ApplicationData.length
+      applications.reduce((s, c) => s + c.aiScore, 0) /
+      applications.length
       ).toFixed(1);
 
   return (
@@ -40,7 +48,7 @@ async function DashboardPage() {
          interviews={interviews}
          />
 
-         <RecentApplications applications={ApplicationData}/>
+         <RecentApplications applications={applications}/>
     </>
   );
 }
