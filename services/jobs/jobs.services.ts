@@ -2,10 +2,9 @@ import { JobsData } from '@/data';
 import {createJobSchema,CreateJobInput} from '@/services/jobs/jobs.validation';
 import { Job } from '@/types';
 import {z} from "zod"
+import { ServiceResult } from '@/types';
 
-export type ServiceResult<T>= 
-| {success:true; data?: T}
-| {success:false; errors?: Record<string,string[]>}
+
 
 export async function createJobService(input:CreateJobInput):Promise<ServiceResult<Job>> {
 
