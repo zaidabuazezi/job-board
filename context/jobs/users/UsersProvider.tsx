@@ -3,10 +3,10 @@ import UsersContext from "./UsersContext";
 import { Application, Job, Candidate } from "@/types";
 import { JobsData,ApplicationData,CandidateData } from "@/data";
 
-const UsersProvider = ({children}: {children:React.ReactNode}) => {
+const UsersProvider = ({jobs=[],children}: {jobs:Job[],children:React.ReactNode}) => {
   const [search, setSearch] = useState("");
   const [expandedUser, setExpandedUser] = useState<string | null>(null);
-  const [jobs,setJobs]=useState<Job[]>(JobsData);
+  const [jobState]=useState<Job[]>(jobs);
   const [candidates,setCandidates]=useState<Candidate[]>(CandidateData);
   const [applications,setApplications]=useState<Application[]>(ApplicationData);
 
@@ -33,8 +33,7 @@ const UsersProvider = ({children}: {children:React.ReactNode}) => {
         setSearch,
         expandedUser,
         setExpandedUser,
-        jobs,
-        setJobs,
+        jobs:jobState,
         candidates,
         setCandidates,
         applications,

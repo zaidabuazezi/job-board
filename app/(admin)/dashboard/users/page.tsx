@@ -1,8 +1,19 @@
 import AdminPageHeader from "@/components/common/AdminPageHeader";
 import { CandidateData } from "@/data";
 import UserListingWrapper from "@/components/users/UsersListingWrapper";
+import { getJobs } from "@/services/jobs/jobs.services";
 
-function UserPage() {
+async function UserPage() {
+
+    const result=await getJobs();
+
+    if(! result.success) {
+        return (
+            <div>Error Loading Jobs</div>
+        )
+    }
+
+    const {data:jobs=[]}=result;
 
     return (
    <>
@@ -14,7 +25,7 @@ function UserPage() {
          actionButtonText="+ CREATE USER =>"
         />
 
-       <UserListingWrapper/>
+       <UserListingWrapper jobs={jobs}/>
    </>
 
     )

@@ -1,8 +1,20 @@
 import { ApplicationData } from "@/data";
 import AdminPageHeader from "@/components/common/AdminPageHeader";
 import ApplicationsListingWrapper from "@/components/applications/ApplicationsListingWrapper";
+import { getJobs } from "@/services/jobs/jobs.services";
 
-function ApplicationsManagementPage() {
+async function ApplicationsManagementPage() {
+
+    const result=await getJobs();
+
+    if(! result.success) {
+        return (
+            <div>error loading jobs</div>
+        )
+    }
+
+    const {data:jobs=[]}=result
+
     return (
         <>
         <AdminPageHeader
@@ -13,7 +25,7 @@ function ApplicationsManagementPage() {
          actionButtonText="VIEW ALL USERS =>"
         />
         
-       <ApplicationsListingWrapper/>
+       <ApplicationsListingWrapper jobs={jobs}/>
        </>
     )
 }

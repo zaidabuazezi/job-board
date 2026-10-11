@@ -2,6 +2,7 @@ import AdminPageHeader from "@/components/common/AdminPageHeader";
 import EditJobForm from "@/components/job-management/EditJobform";
 import JobNotFound from "@/components/jobs/JobNotFound";
 import { JobsData } from "@/data";
+import { getJob } from "@/services/jobs/jobs.services";
 import {Job} from '@/types'
 
 type Props = {
@@ -13,9 +14,15 @@ type Props = {
 async function EditJobPage({ params }: Props) {
   const { jobId } = await params;
 
-  const job=JobsData.find((job:Job)=> {
-      return job.id === jobId
-  })
+  const result=await getJob(jobId);
+
+  if(! result.success) {
+
+    return <JobNotFound />;
+  }
+
+   const {data: job} =result;
+   
 
   if (!job) {
     return <JobNotFound />;

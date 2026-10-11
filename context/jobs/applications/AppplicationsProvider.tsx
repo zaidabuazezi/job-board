@@ -6,12 +6,12 @@ import { ApplicationData } from "@/data";
 import { Application, Job } from "@/types";
 import { JobsData } from "@/data";
 
-const ApplicationsProvider = ({ children }:{children:React.ReactNode}) => {
+const ApplicationsProvider = ({jobs=[] ,children }:{jobs:Job[],children:React.ReactNode}) => {
 
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("ALL");
   const [jobFilter, setJobFilter] = useState<string>("ALL");
-  const [jobs,setJobs]=useState<Job[]>(JobsData);
+  const [jobState]=useState<Job[]>(jobs);
   const [applications,setApplications]=useState<Application[]>(ApplicationData);
 
   const filteredApplications = applications.filter((app) => {
@@ -37,8 +37,7 @@ const ApplicationsProvider = ({ children }:{children:React.ReactNode}) => {
         jobFilter,
         setJobFilter,
         filteredApplications,
-        jobs,
-        setJobs,
+        jobs:jobState,
         applications,
         setApplications
       }}
